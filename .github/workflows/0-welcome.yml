@@ -1,5 +1,5 @@
  ```yaml copy
-   name: Post welcome comment
+name: Post welcome comment
 
 on:
   pull_request:
@@ -9,18 +9,23 @@ permissions:
   pull-requests: write
 
 jobs:
-  post-comment:
+  post-welcome-comment:
     runs-on: ubuntu-latest
     steps:
       - name: Post a welcome comment
-        uses: actions/github-script@v6
+        uses: actions/github-script@latest
         with:
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Thank you for opening this pull request! We appreciate your contribution.'
-            })
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            await github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body: 'Welcome! Thank you for your contribution.'
+            });
+
 
    ```
